@@ -77,14 +77,22 @@ PARITY.OUT
 		
 SOLUTION:
 If an interval <A,B> has even parity, that means intervals <0, A-1> and <0, B> have the SAME parity.
+
 If an interval <A,B> has odd parity, that means intervals <0, A-1> and <0, B> have the OPPOSITE parity.
+
 We need to group intervals based on parity info. Grupping the intervals with the SAME parity can simply be done by gathering them in UnionFind structure. But this method must be extended to accomodate for situation when we gate info about OPPOSITE parity. 
 For this reason we need to keep two groups for each interval, eg. a and !a. They can be stored in two tables eg. P[idx] = a and NP [idx] = !a
+
 If we have two intervals eg. x and y with the SAME parity then P[x] is in the same group as P[y], and NP[x] is in the same group as NP[y]
+
 If we have two intervals eg. x and y with the OPPOSITE parity then P[x] is in the same group as NP[y], and NP[x] is in the same group as P[y]
+
 So consider the example:
+
 3 10 even -> P[2] = P[10] & NP[2] = NP[10]
+
 2 4 odd -> P[1] = NP[4] & P[4] = NP[1]
+
 UnionFind can be used to keep track of those groups, but there must be separate indexes for them. In my case I used indexes > length for storing NP
 
 The same element cannot be in both groups in the same time. If such thing happens, that means that this guess was incorrect.
