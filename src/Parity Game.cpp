@@ -14,13 +14,13 @@
 
 using namespace std;
 
-class UnionFind {
-	unordered_map<long long, long long> hashMap;
+template <class T> class UnionFind {
+	unordered_map<T, T> hashMap;
 public:
-	UnionFind(long long size){};
-	void unio(long long value1, long long value2){
-		long long p1 = find(value1);
-		long long p2 = find(value2);
+	UnionFind(){};
+	void unio(T value1, T value2){	// union is a keyword in C++
+		T p1 = find(value1);
+		T p2 = find(value2);
 
 		if (p1 > p2) {
 			hashMap[p2] = p1;
@@ -30,8 +30,8 @@ public:
 		}
 	};
 
-	long long find(long long value){
-		long long currentValue = value;
+	T find(T value){
+		T currentValue = value;
 		while (hashMap.count(currentValue) > 0 && hashMap[currentValue] != currentValue){
 			currentValue = hashMap[currentValue];
 		}
@@ -42,11 +42,15 @@ public:
 };
 
 int main() {
+	// redirect in.txt to stdin!
+    //std::ifstream in("in.txt");
+    //std::cin.rdbuf(in.rdbuf());
+
     long long length;
     while (cin>> length) {
     	if (length < 0) break;
 
-    	UnionFind uf(length);
+    	UnionFind<long long> uf;
 
     	auto getNegative = [&](long long value){
     		return length + 1 + value;
@@ -75,10 +79,7 @@ int main() {
     		long long gpa = uf.find(a);
     		long long gna = uf.find(getNegative(a));
 
-    		long long gpb = uf.find(b+1);
-    		long long gnb = uf.find(getNegative(b+1));
-
-    		if (gpa == gna || gpb == gnb) {
+    		if (gpa == gna) {
 				cout <<  idx - 1 << endl;
 				correct = false;
 			}
